@@ -45,6 +45,22 @@ class Email(Field):
 class Address(Field):
     pass
 
+# Клас Note — для нотаток, які можна додавати до запису
+class Note(Field):
+    def __init__(self, text, tags=None):
+        self.text = text
+        self.tags = tags if tags else []
+    def add_tag(self, tag):
+        if tag not in self.tags:
+            self.tags.append(tag)
+    def remove_tag(self, tag):
+        if tag in self.tags:
+            self.tags.remove(tag)
+    def edit_text(self, new_text):
+        self.text = new_text
+    def __str__(self):
+        tags_str = ', '.join(self.tags) if self.tags else "No tags"
+        return f"Note: {self.text}\nTags: {tags_str}"
 
 # Record — один контакт зі всіма полями: ім'я, телефони, email, адреса, день народження
 class Record:
@@ -129,3 +145,13 @@ if __name__ == "__main__":
     # Виводимо всі записи
     for name, rec in book.data.items():
         print(rec)
+
+    # Додаємо нотатку до контакту
+    note1 = Note("Buy milk and bread", ["shopping", "urgent"])
+    print(note1)
+
+    note1.add_tag("groceries")
+    note1.remove_tag("urgent")
+    note1.edit_text("Buy milk, bread, and eggs")
+    print("\nAfter changes:")
+    print(note1)

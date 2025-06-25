@@ -78,9 +78,13 @@ Available commands:
                 for record in book.data.values():
                     print(record)
 
-        elif command == "find":
+                elif command == "find":
             name = input("Enter the name to search: ").strip()
-            found = book.find_record(name)
+            found = None
+            for contact_name, record in book.data.items():
+                if contact_name.lower() == name.lower():
+                    found = record
+                    break
             if found:
                 print(found)
             else:

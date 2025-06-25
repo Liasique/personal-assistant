@@ -102,6 +102,33 @@ Available commands:
             if not deleted:
                 print(f"❌ No contact found with name '{name}'")
 
+        elif command == "edit":
+            name = input("Enter the name of the contact to edit: ").strip()
+            record = book.find_record(name)
+            if record:
+                print(f"Editing contact: {record}")
+                phone = input("Enter new phone (leave empty to keep current): ").strip()
+                if phone:
+                    record.edit_phone(record.phones[0].value, phone)
+
+                email = input("Enter new email (leave empty to keep current): ").strip()
+                if email:
+                    record.add_email(email)
+
+                address = input("Enter new address (leave empty to keep current): ").strip()
+                if address:
+                    record.add_address(address)
+
+                birthday = input("Enter new birthday (leave empty to keep current): ").strip()
+                if birthday:
+                    try:
+                        record.add_birthday(birthday)
+                    except ValueError as e:
+                        print(f"⚠️ {e}")
+
+                print("✅ Contact updated successfully.")
+            else:
+                print(f"❌ No contact found with name '{name}'")
 
 
 

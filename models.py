@@ -127,7 +127,34 @@ class AddressBook(UserDict):
 
     def __str__(self):
         return "\n".join(str(record) for record in self.data.values())
+
+#NoteBook — окремий клас для нотаток, які можна додавати до записів
+class NoteBook(UserDict):
+    def __init__(self):
+        super().__init__()
+        self.notes = [] 
+    def add_note(self, note):
+        if not isinstance(note, Note):
+            raise TypeError ("Only Note instances can be added.")
+        self.notes.append(note)
+
+    def find_by_tag(self, tag):
+        return [note for note in self.notes if tag in note.tags]
+   
+    def search_in_text(self, keyword):
+        return [note for note in self.notes if keyword.lower() in note.text.lower()]
+
+    def remove_note(self, text):
+        for note in self.notes:
+            if note.text == text:
+                self.notes.remove(note)
+                return True
+        return False
+
+    def __str__(self):
+        return "\n".join(str(note) for note in self.notes)
     
+# Головний блок для тестування
 if __name__ == "__main__":
      # Створюємо об'єкт адресної книги
     book = AddressBook()
@@ -155,3 +182,29 @@ if __name__ == "__main__":
     note1.edit_text("Buy milk, bread, and eggs")
     print("\nAfter changes:")
     print(note1)
+
+    print("\n--- Notebook tests ---")
+    nb = NoteBook()
+
+    note1 = Note("Buy milk and bread", tags=["shopping", "urgent"])
+    note2 = Note("Read book about Python", tags=["study", "python"])
+    note3 = Note("Buy flowers", tags=["shopping"])
+
+    nb.add_note(note1)
+    nb.add_note(note2)
+    nb.add_note(note3)
+
+    print("All notes:")
+    print(nb)
+
+    print("\nSearch by tag 'shopping':")
+    for n in nb.find_by_tag("shopping"):
+        print(n)
+
+    print("\nSearch in text 'Python':")
+    for n in nb.search_in_text("Python"):
+        print(n)
+
+    print("\nRemoving note 'Buy flowers'")
+    nb.remove_note("Buy flowers")
+    print(nb)

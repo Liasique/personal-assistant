@@ -92,11 +92,15 @@ Available commands:
 
         elif command == "delete":
             name = input("Enter the name to delete: ").strip()
-            try:
-                book.remove_record(name)
-                print(f"✅ Contact '{name}' deleted successfully.")
-            except KeyError as e:
-                print(f"❌ {e}")
+            deleted = False
+            for contact_name in list(book.data.keys()):
+                if contact_name.lower() == name.lower():
+                    book.remove_record(contact_name)
+                    print(f"🗑️ Contact '{contact_name}' deleted successfully.")
+                    deleted = True
+                    break
+            if not deleted:
+                print(f"❌ No contact found with name '{name}'")
 
 
 

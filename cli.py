@@ -1,0 +1,51 @@
+from models import AddressBook, NoteBook, Record, Note
+import sys
+# added first contact for testing
+#
+""" 
+book = AddressBook()
+record = Record("Olga")
+record.add_phone("0671234567")
+record.add_email("olga@example.com")
+record.add_address("Kyiv, Ukraine")
+record.add_birthday("26.06.1990")
+book.add_record(record)
+book.save_to_file()
+"""
+def main():
+    # Завантажуємо адресну книгу з файлу або створюємо нову
+    book = AddressBook()
+    book.load_from_file()
+
+    # Завантажуємо нотатки
+    notebook = NoteBook()
+    notebook.load_from_file()
+
+    print("📒 Personal Assistant started. Type 'help' to see available commands.")
+
+    while True:
+        command = input("\nEnter a command: ").strip().lower()
+        if command == "exit":
+            print("💾 Saving data...")
+            book.save_to_file()
+            notebook.save_to_file()
+            print("👋 Goodbye!")
+            break
+
+        elif command == "help":
+           print("""
+Available commands:
+  add          - Add a new contact
+  show all     - Show all contacts
+  find         - Find a contact by name
+  delete       - Delete a contact by name
+  notes        - Show all notes
+  help         - Show this help message
+  exit         - Save and exit
+""")
+
+        else:
+            print("⚠️ Unknown command. Type 'help' to see available commands.")
+
+if __name__ == "__main__":
+    main()

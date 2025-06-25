@@ -1,6 +1,7 @@
 from collections import UserDict
 from datetime import datetime
 import re
+import pickle
 
 # Базовий клас для всіх полів (має лише значення)
 class Field:
@@ -128,6 +129,17 @@ class AddressBook(UserDict):
     def __str__(self):
         return "\n".join(str(record) for record in self.data.values())
 
+    def save_to_file(self, filename="addressbook.pkl"):
+        with open(filename, "wb") as f:
+            pickle.dump(self.data, f)
+
+    def load_from_file(self, filename="addressbook.pkl"):
+        try:
+            with open(filename, "rb") as f:
+                self.data = pickle.load(f)
+        except FileNotFoundError:
+            self.data = {}
+
 #NoteBook — окремий клас для нотаток, які можна додавати до записів
 class NoteBook(UserDict):
     def __init__(self):
@@ -154,8 +166,22 @@ class NoteBook(UserDict):
     def __str__(self):
         return "\n".join(str(note) for note in self.notes)
     
+    def save_to_file(self, filename="notebook.pkl"):
+        with open(filename, "wb") as f:
+            pickle.dump(self.notes, f)
+
+    def load_from_file(self, filename="notebook.pkl"):
+        try:
+            with open(filename, "rb") as f:
+                self.notes = pickle.load(f)
+        except FileNotFoundError:
+            self.notes = []
+
 # Головний блок для тестування
 if __name__ == "__main__":
+
+    book = AddressBook()
+    book.load_from_file()
      # Створюємо об'єкт адресної книги
     book = AddressBook()
 
@@ -168,6 +194,7 @@ if __name__ == "__main__":
 
     # Додаємо запис в адресну книгу
     book.add_record(record)
+    book.save_to_file()
 
     # Виводимо всі записи
     for name, rec in book.data.items():

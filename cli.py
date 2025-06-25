@@ -43,9 +43,40 @@ Available commands:
   help         - Show this help message
   exit         - Save and exit
 """)
+        elif command == "add":
+            name = input("Enter name: ").strip()
+            record = Record(name)
 
-        else:
-            print("⚠️ Unknown command. Type 'help' to see available commands.")
+            phone = input("Enter phone (optional): ").strip()
+            if phone:
+                record.add_phone(phone)
+
+            email = input("Enter email (optional): ").strip()
+            if email:
+                record.add_email(email)
+
+            address = input("Enter address (optional): ").strip()
+            if address:
+                record.add_address(address)
+
+            birthday = input("Enter birthday (optional, format DD.MM.YYYY): ").strip()
+            if birthday:
+                try:
+                    record.add_birthday(birthday)
+                except ValueError as e:
+                    print(f"⚠️ {e}")
+        # else:
+        #     print("⚠️ Unknown command. Type 'help' to see available commands.")
+
+            book.add_record(record)
+            print("✅ Contact added successfully.")
+
+        elif command == "show all":
+            if not book.data:
+                print("📭 Address book is empty.")
+            else:
+                for record in book.data.values():
+                    print(record)
 
 if __name__ == "__main__":
     main()

@@ -176,7 +176,7 @@ class NoteBook(UserDict):
                 self.notes = pickle.load(f)
         except FileNotFoundError:
             self.notes = []
-
+"""
 # Головний блок для тестування
 if __name__ == "__main__":
 
@@ -235,3 +235,4 @@ if __name__ == "__main__":
     print("\nRemoving note 'Buy flowers'")
     nb.remove_note("Buy flowers")
     print(nb)
+    """

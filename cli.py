@@ -78,7 +78,7 @@ Available commands:
                 for record in book.data.values():
                     print(record)
 
-                elif command == "find":
+        elif command == "find":
             name = input("Enter the name to search: ").strip()
             found = None
             for contact_name, record in book.data.items():
@@ -89,6 +89,18 @@ Available commands:
                 print(found)
             else:
                 print(f"❌ No contact found with name '{name}'")
+
+        elif command == "delete":
+            name = input("Enter the name to delete: ").strip()
+            try:
+                book.remove_record(name)
+                print(f"✅ Contact '{name}' deleted successfully.")
+            except KeyError as e:
+                print(f"❌ {e}")
+
+
+
+
 
 if __name__ == "__main__":
     main()
